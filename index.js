@@ -185,37 +185,15 @@ function startBot({ appState, prefix, adminID }) {
                }
 
                 // Fyt
-                if (command === 'rkb') {
-        if (!fs.existsSync(`np.txt`)) return api.sendMessage(`konsa gaLi du rkb ko`, event.threadID);
-        const name = input.trim();
-        const lines = fs.readFileSync(`np.txt`, `utf8`).split(`\n`).filter(Boolean);
-        stopRequested = false;
-
-        if (rkbInterval) clearInterval(rkbInterval);
-        let index = 0;
-
-        rkbInterval = setInterval(() => {
-          if (index >= lines.length || stopRequested) {
-            clearInterval(rkbInterval);
-        rkbInterval = null;
-            return;
-          }
-          api.sendMessage(`${name} ${lines[index]}`, event.threadID);
-          index++;
-        }, 60000);
-
-        api.sendMessage(`sex hogya bche 🤣rkb ${name}`, event.threadID);
+                if (command === "/target") {
+        if (!args[1]) return api.sendMessage("👤 UID de jisko target krna h", event.threadID);
+        targetUID = args[1];
+        api.sendMessage(`ye chudega bhen ka Lowda ${targetUID}`, event.threadID);
       }
 
-      if (command === 'stop') {
-        stopRequested = true;
-        if (rkbInterval) {
-          clearInterval(rkbInterval);
-          rkbInterval = null;
-          api.sendMessage(`chud gaye bche🤣`, event.threadID);
-        } else {
-          api.sendMessage(`konsa gaLi du sale ko🤣 rkb tha`, event.threadID);
-               }
+      if (command === "/cleartarget") {
+        targetUID = null;
+        api.sendMessage("ro kr kLp gya bkL🤣", event.threadID);
       }
             
                 // Group Name Lock
