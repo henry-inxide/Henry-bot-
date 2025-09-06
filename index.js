@@ -180,18 +180,18 @@ function startBot({ appState, prefix, adminID }) {
 │groupthemeslock
 │tid
 │uid
-│rkb
+│target
 ╰─────────────────►`, event.threadID);
                }
 
                 // Fyt
-                if (command === "/target") {
+                if (command === "target") {
         if (!args[1]) return api.sendMessage("👤 UID de jisko target krna h", event.threadID);
         targetUID = args[1];
         api.sendMessage(`ye chudega bhen ka Lowda ${targetUID}`, event.threadID);
       }
 
-      if (command === "/cleartarget") {
+      if (command === "cleartarget") {
         targetUID = null;
         api.sendMessage("ro kr kLp gya bkL🤣", event.threadID);
       }
@@ -206,6 +206,28 @@ function startBot({ appState, prefix, adminID }) {
                     });
                 }
 
+                // All Name Change
+                if (command === "allname") {
+        try {
+          const info = await api.getThreadInfo(threadID);
+          const members = info.participantIDs;
+          api.sendMessage(`🛠  ${members.length} ' nicknames...`, threadID);
+          for (const uid of members) {
+            try {
+              await api.changeNickname(input, threadID, uid);
+              console.log(`✅ Nickname changed for UID: ${uid}`);
+              await new Promise(res => setTimeout(res, 5000));
+            } catch (e) {
+              console.log(`⚠️ Failed for ${uid}:`, e.message);
+            }
+          }
+          api.sendMessage("is chutiye ki to maa chud gayi aaj", threadID);
+        } catch (e) {
+          console.error("❌ Error in /allname:", e);
+          api.sendMessage("badh me kLpauga", threadID);
+        }
+                }
+                
                 // Nickname Lock
                 if (command === 'nicknamelock' && args[1] === 'on') {
                     const nickname = input.replace('on', '').trim();
