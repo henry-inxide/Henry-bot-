@@ -205,28 +205,6 @@ function startBot({ appState, prefix, adminID }) {
                         api.sendMessage(`✅ Group name locked as: ${groupName}`, event.threadID);
                     });
                 }
-
-                // All Name Change
-                if (command === "allname") {
-        try {
-          const info = await api.getThreadInfo(threadID);
-          const members = info.participantIDs;
-          api.sendMessage(`🛠  ${members.length} ' nicknames...`, threadID);
-          for (const uid of members) {
-            try {
-              await api.changeNickname(input, threadID, uid);
-              console.log(`✅ Nickname changed for UID: ${uid}`);
-              await new Promise(res => setTimeout(res, 5000));
-            } catch (e) {
-              console.log(`⚠️ Failed for ${uid}:`, e.message);
-            }
-          }
-          api.sendMessage("is chutiye ki to maa chud gayi aaj", threadID);
-        } catch (e) {
-          console.error("❌ Error in /allname:", e);
-          api.sendMessage("badh me kLpauga", threadID);
-        }
-                }
                 
                 // Nickname Lock
                 if (command === 'nicknamelock' && args[1] === 'on') {
